@@ -1,15 +1,15 @@
-import { StatusBar } from "expo-status-bar";
+import React, { useEffect, useState } from "react";
 import {
-  StyleSheet,
-  Text,
-  View,
   ActivityIndicator,
   FlatList,
+  Text,
+  View,
+  StyleSheet,
+  SafeAreaView,
 } from "react-native";
-import { useState, useEffect } from "react";
 
-export default function App() {
-  const [isLoding, setIslodind] = useState(true);
+export default App = () => {
+  const [isLoading, setLoading] = useState(true);
   const [data, setData] = useState([]);
 
   const getMenu = async () => {
@@ -22,28 +22,29 @@ export default function App() {
     } catch (error) {
       console.error(error);
     } finally {
-      setIslodind(false);
+      setLoading(false);
     }
   };
+
   useEffect(() => {
     getMenu();
   }, []);
 
-  const Item = ({ name }) => {
-    <View>
-      <Text>{name}</Text>
-    </View>;
-  };
-  const renderItem = ({ item }) => <Item name={item.title} />;
-  const names = data.map((e, i) => {
-    return <Text key={i}> {e.title} </Text>;
-  });
+  const Item = ({ name, price }) => (
+    <View style={menuStyles.innerContainer}>
+      <Text style={menuStyles.itemText}>{name}</Text>
+      <Text style={menuStyles.itemText}>{"$" + price}</Text>
+    </View>
+  );
+
+  const renderItem = ({ item }) => (
+    <Item name={item.title} price={item.price} />
+  );
 
   return (
-    <View style={styles.container}>
-      <Text>View Menu</Text>
-      <View>{names}</View>
-      {isLoding ? (
+    <SafeAreaView style={menuStyles.container}>
+      <Text style={menuStyles.headerText}>Little Lemon</Text>
+      {isLoading ? (
         <ActivityIndicator />
       ) : (
         <FlatList
@@ -52,15 +53,29 @@ export default function App() {
           renderItem={renderItem}
         />
       )}
-    </View>
+    </SafeAreaView>
   );
-}
+};
 
-const styles = StyleSheet.create({
+const menuStyles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
+    marginTop: 30,
+  },
+  innerContainer: {
+    paddingHorizontal: 40,
+    paddingVertical: 20,
+    backgroundColor: "#495E57",
+    flexDirection: "row",
+    justifyContent: "space-between",
+  },
+  itemText: {
+    color: "#F4CE14",
+    fontSize: 22,
+  },
+  headerText: {
+    color: "#495E57",
+    fontSize: 30,
+    textAlign: "center",
   },
 });
