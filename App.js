@@ -6,7 +6,9 @@ import {
   View,
   StyleSheet,
   SafeAreaView,
+  ScrollView,
 } from "react-native";
+import DisplayImage from "./DisplayImage";
 
 export default App = () => {
   const [isLoading, setLoading] = useState(true);
@@ -42,18 +44,21 @@ export default App = () => {
   );
 
   return (
-    <SafeAreaView style={menuStyles.container}>
-      <Text style={menuStyles.headerText}>Little Lemon</Text>
-      {isLoading ? (
-        <ActivityIndicator />
-      ) : (
-        <FlatList
-          data={data}
-          keyExtractor={({ id }, index) => id}
-          renderItem={renderItem}
-        />
-      )}
-    </SafeAreaView>
+    <ScrollView>
+      <View style={menuStyles.container}>
+        <Text style={menuStyles.headerText}>Little Lemon</Text>
+        <DisplayImage />
+        {isLoading ? (
+          <ActivityIndicator />
+        ) : (
+          <FlatList
+            data={data}
+            keyExtractor={({ id }) => id}
+            renderItem={renderItem}
+          />
+        )}
+      </View>
+    </ScrollView>
   );
 };
 
@@ -61,6 +66,8 @@ const menuStyles = StyleSheet.create({
   container: {
     flex: 1,
     marginTop: 30,
+    alignItems: "center",
+    justifyContent: "center",
   },
   innerContainer: {
     paddingHorizontal: 40,
