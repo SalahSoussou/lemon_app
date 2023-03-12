@@ -9,6 +9,7 @@ import {
   ScrollView,
 } from "react-native";
 import DisplayImage from "./DisplayImage";
+import Form from "./Form";
 
 export default App = () => {
   const [isLoading, setLoading] = useState(true);
@@ -47,7 +48,8 @@ export default App = () => {
     <ScrollView>
       <View style={menuStyles.container}>
         <Text style={menuStyles.headerText}>Little Lemon</Text>
-        <DisplayImage />
+        {/* <DisplayImage /> */}
+        <Form />
         {isLoading ? (
           <ActivityIndicator />
         ) : (
